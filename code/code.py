@@ -47,6 +47,7 @@ import weekly
 import monthly
 import sendEmail
 import add_recurring
+import group
 from datetime import datetime
 from jproperties import Properties
 
@@ -296,6 +297,16 @@ def command_predict(message):
     analyze budget and spending trends and suggest a future budget. Commands to run this commands=["predict"]
     """
     predict.run(message, bot)
+
+# handles group creation
+@bot.message_handler(commands=["group"])
+def command_group(message):
+    """
+    command_group(message): Take an argument message with content and chat ID. Calls group to 
+    create a group for expense splitting. Commands to run this commands=["group"]
+    """
+    group.run(message, bot)
+
 
 def main():
     """
