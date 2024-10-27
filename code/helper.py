@@ -74,6 +74,7 @@ commands = {
     "weekly": "This option is to get the weekly analysis report of the expenditure",
     "monthly": "This option is to get the monthly analysis report of the expenditure",
     "sendEmail": "Send an email with an attachment showing your history",
+    "chat": "Start a conversation with ChatGPT",
 }
 
 dateFormat = "%d-%b-%Y"

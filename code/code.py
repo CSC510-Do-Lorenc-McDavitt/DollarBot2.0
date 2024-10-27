@@ -47,6 +47,7 @@ import weekly
 import monthly
 import sendEmail
 import add_recurring
+import chat
 from datetime import datetime
 from jproperties import Properties
 
@@ -100,6 +101,12 @@ def listener(user_requests):
         pass
 
 bot.set_update_listener(listener)
+@bot.message_handler(commands=["chat"])
+def command_chat(message):
+    """
+    Handles the /chat command
+    """
+    chat.run(message, bot)
 
 @bot.message_handler(commands=["help"])
 def show_help(m):
