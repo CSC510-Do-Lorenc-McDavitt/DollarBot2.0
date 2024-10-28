@@ -29,39 +29,63 @@ import helper
 import logging
 from tabulate import tabulate
 from datetime import datetime
+from currency import get_conversion_rate
+from currency import get_supported_currencies
+from telebot import TeleBot, types
+
 
 # === Documentation of history.py ===
 
+
 def run(message, bot):
     """
-    run(message, bot): This is the main function used to implement the delete feature.
-    It takes 2 arguments for processing - message which is the message from the user, and bot which
-    is the telegram bot object from the main code.py function. It calls helper.py to get the user's
-    historical data and based on whether there is data available, it either prints an error message or
-    displays the user's historical data.
+    Fetches, processes, and formats the user's transaction history based on their selected currency.
     """
     try:
-        helper.read_json()
         chat_id = message.chat.id
+        selected_currency = message.text.strip().upper()
+
+        helper.read_json()
         user_history = helper.getUserHistory(chat_id)
+        if user_history is None or len(user_history) == 0:
+            bot.send_message(chat_id, "No transaction history found.")
+            return
+
         table = [["Date", "Category", "Amount"]]
-        if user_history is None:
-            raise Exception("Sorry! No spending records found!")
-        if len(user_history) == 0:
-            raise Exception("Sorry! No spending records found!")
-        else:
-            for rec in user_history:
-                values = rec.split(',')
-                # Store each value in separate variables
-                date, category, amount = values
+        for rec in user_history:
+            values = rec.split(',')
+            date, category, amount = values
 
-                date_time = datetime.strptime(date, '%d-%b-%Y')
-                current_date = datetime.now()
+            date_time = datetime.strptime(date, '%d-%b-%Y')
+            current_date = datetime.now()
 
-                if(date_time <= current_date):
-                    table.append([date, category, "$ " + amount])
-            spend_total_str="<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
+            if date_time <= current_date:
+                original_currency = 'USD'  # Assume the original currency is USD
+                try:
+                    # Convert the amount if the selected currency is different
+                    if selected_currency != original_currency:
+                        conversion_rate = get_conversion_rate(original_currency, selected_currency)
+                        if conversion_rate:
+                            converted_amount = round(float(amount) * conversion_rate, 2)
+                            table.append([date, category, f"{converted_amount} {selected_currency}"])
+                        else:
+                            table.append([date, category, f"{amount} USD (conversion failed)"])
+                    else:
+                        table.append([date, category, f"{amount} USD"])
+                except Exception as e:
+                    bot.send_message(chat_id, f"Error converting amount: {e}")
+                    return
+
+        if len(table) > 1:
+            spend_total_str = "<pre>" + tabulate(table, headers='firstrow') + "</pre>"
             bot.send_message(chat_id, spend_total_str, parse_mode="HTML")
+        else:
+            bot.send_message(chat_id, "No transaction history found after conversion.")
+
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, "Oops! " + str(e))
+
+
+
+
