@@ -1,11 +1,12 @@
 pip3 install -r requirements.txt
 
 api_token=$(grep "api_token" user.properties|cut -d'=' -f2)
+openai_key=$(grep "openai_key" user.properties | cut -d'=' -f2)
 
-flag = "old"
+flag="old"
 
 echo "Checking for API Token..."
-if [ -z "$api_token" ]
+if [ -z "$api_token" ] && [ -z "$openai_key" ];
 then
   echo "Welcome to DollarBot!"
   echo "Follow the steps below to generate an API token to uniquely identify your personal DollarBot. Then, proceed to enter the generated token when prompted to run DollarBot."
@@ -20,10 +21,13 @@ then
   read option
   if [ $option == 'y' -o $option == 'Y' ]
   then
-    flag = "new"
+    flag="new"
     echo "Enter the copied token: "
     read api_token
     echo "api_token="$api_token >> user.properties
+    echo "Enter your OpenAI API key: "
+    read openai_key
+    echo "openai_key="$openai_key >> user.properties
   fi
 fi
 
@@ -32,3 +36,4 @@ then
     echo "Thanks for choosing DollarBot! Starting DollarBot with new API token..." 
     python3 code/code.py
 fi
+
