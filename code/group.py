@@ -89,7 +89,7 @@ def handle_delete_group(message, bot):
         del groups[group_name]
 
         # Persist the updated group data
-        helper.save_group_data(groups)  # Ensure that the deletion is saved to storage
+        helper.save_group_data(groups)
 
         bot.send_message(chat_id, f"Group '{group_name}' and all associated expenses have been deleted.")
     else:
