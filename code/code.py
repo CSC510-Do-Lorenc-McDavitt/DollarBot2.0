@@ -50,6 +50,10 @@ import add_recurring
 import group
 from datetime import datetime
 from jproperties import Properties
+from currency import get_supported_currencies
+from telebot import types
+from tabulate import tabulate
+from history import run as history_run
 
 
 configs = Properties()
@@ -170,6 +174,15 @@ def command_add(message):
     """
     add.run(message, bot)
 
+# handles group creation
+@bot.message_handler(commands=["group"])
+def command_group(message):
+    """
+    command_group(message): Take an argument message with content and chat ID. Calls group to 
+    create a group for expense splitting. Commands to run this commands=["group"]
+    """
+    group.run(message, bot)
+
 # defines how the /weekly command has to be handled/processed
 @bot.message_handler(commands=["weekly"])
 def command_weekly(message):
@@ -216,14 +229,32 @@ def command_updateCategory(message):
     updateCategory.run(message, bot)
 
 # function to fetch expenditure history of the user
+# @bot.message_handler(commands=["history"])
+# def command_history(message):
+#     """
+#     command_history(message): Takes 1 argument message which contains the message from
+#     the user along with the chat ID of the user chat. It then calls history.py to run to execute
+#     the add functionality. Commands used to run this: commands=['history']
+#     """
+#     history.run(message, bot)
+
 @bot.message_handler(commands=["history"])
 def command_history(message):
     """
-    command_history(message): Takes 1 argument message which contains the message from
-    the user along with the chat ID of the user chat. It then calls history.py to run to execute
-    the add functionality. Commands used to run this: commands=['history']
+    Starts the process for showing the user's transaction history in a selected currency.
     """
-    history.run(message, bot)
+    chat_id = message.chat.id
+    supported_currencies = get_supported_currencies()
+    
+    if supported_currencies:
+        # Create a ReplyKeyboardMarkup to display currency options
+        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+        for currency in supported_currencies:
+            markup.add(currency)
+        msg = bot.reply_to(message, "Select the currency you want the history to be displayed in:", reply_markup=markup)
+        bot.register_next_step_handler(msg, lambda m: history_run(m, bot))
+    else:
+        bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
 
 # function to fetch expenditure history of the user
 @bot.message_handler(commands=["sendEmail"])
@@ -298,15 +329,135 @@ def command_predict(message):
     """
     predict.run(message, bot)
 
-# handles group creation
-@bot.message_handler(commands=["group"])
-def command_group(message):
+@bot.message_handler(commands=['currency'])
+def show_supported_currencies(message):
     """
-    command_group(message): Take an argument message with content and chat ID. Calls group to 
-    create a group for expense splitting. Commands to run this commands=["group"]
+    Sends a message listing all the supported currencies when the user types /currency.
     """
-    group.run(message, bot)
+    chat_id = message.chat.id
+    supported_currencies = get_supported_currencies()
+    
+    if supported_currencies:
+        currency_list = ", ".join(supported_currencies)
+        bot.send_message(chat_id, f"Supported Currencies: {currency_list}")
+    else:
+        bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
 
+from currency import get_supported_currencies, get_conversion_rate
+
+@bot.message_handler(commands=['convert'])
+def convert_currency(message):
+    """
+    Converts the specified currency to USD when the user types /convert <currency>.
+    """
+    chat_id = message.chat.id
+    try:
+        # Expect the message format to be like "/convert CNY to USD"
+        text = message.text.split()
+        if len(text) != 4 or text[1].upper() == 'USD' or text[3].upper() != 'USD':
+            bot.send_message(chat_id, "Usage: /convert <currency_code> to USD (e.g., /convert EUR to USD)")
+            return
+        
+        base_currency = text[1].upper()
+
+        # Fetch the conversion rate using the function from currency.py
+        conversion_rate = get_conversion_rate(base_currency, 'USD')
+
+        if conversion_rate:
+            bot.send_message(chat_id, f"1 {base_currency} = {conversion_rate} USD")
+        else:
+            bot.send_message(chat_id, "Failed to fetch the conversion rate. Please ensure the currency code is valid.")
+    except Exception as e:
+        print(f"Error processing conversion command: {e}")
+        bot.send_message(chat_id, "An error occurred. Please try again.")
+
+@bot.message_handler(commands=['currencycalculator'])
+def start_currency_calculator(message):
+    """
+    Initiates the currency calculator by asking the user to choose the base currency.
+    """
+    chat_id = message.chat.id
+    supported_currencies = get_supported_currencies()
+    
+    if supported_currencies:
+        # Create a ReplyKeyboardMarkup to display currency options
+        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+        for currency in supported_currencies:
+            markup.add(currency)
+        msg = bot.reply_to(message, "Select the currency you want to convert from:", reply_markup=markup)
+        bot.register_next_step_handler(msg, get_target_currency)
+    else:
+        bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
+
+def get_target_currency(message):
+    """
+    Asks the user to select the target currency for conversion.
+    """
+    chat_id = message.chat.id
+    base_currency = message.text.upper()
+
+    # Store the base currency in user context
+    user_data = helper.read_json()
+    if str(chat_id) not in user_data:
+        user_data[str(chat_id)] = helper.createNewUserRecord()
+    user_data[str(chat_id)]['base_currency'] = base_currency
+    helper.write_json(user_data)
+
+    # Fetch supported currencies again to display the options for the target currency
+    supported_currencies = get_supported_currencies()
+    
+    if supported_currencies:
+        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+        for currency in supported_currencies:
+            # Ensure the target currency is not the same as the base currency
+            if currency != base_currency:
+                markup.add(currency)
+        msg = bot.reply_to(message, "Select the currency you want to convert to:", reply_markup=markup)
+        bot.register_next_step_handler(msg, get_amount_to_convert)
+    else:
+        bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
+
+def get_amount_to_convert(message):
+    """
+    Asks the user to input the amount to convert.
+    """
+    chat_id = message.chat.id
+    target_currency = message.text.upper()
+
+    # Save the target currency in user context
+    user_data = helper.read_json()
+    user_data[str(chat_id)]['target_currency'] = target_currency
+    helper.write_json(user_data)
+
+    # Ask the user to enter the amount
+    msg = bot.send_message(chat_id, f"Enter the amount in {user_data[str(chat_id)]['base_currency']} you want to convert to {target_currency}:")
+    bot.register_next_step_handler(msg, perform_currency_conversion)
+
+def perform_currency_conversion(message):
+    """
+    Performs the currency conversion between the selected base and target currencies.
+    """
+    chat_id = message.chat.id
+    user_data = helper.read_json()
+    base_currency = user_data.get(str(chat_id), {}).get('base_currency', 'USD')
+    target_currency = user_data.get(str(chat_id), {}).get('target_currency', 'USD')
+
+    try:
+        amount = float(message.text)
+
+        # Fetch the conversion rate using the function from currency.py
+        conversion_rate = get_conversion_rate(base_currency, target_currency)
+
+        if conversion_rate:
+            converted_amount = round(amount * conversion_rate, 2)
+            bot.send_message(chat_id, f"{amount} {base_currency} = {converted_amount} {target_currency}")
+        else:
+            bot.send_message(chat_id, "Failed to fetch the conversion rate. Please try again.")
+    except ValueError:
+        bot.send_message(chat_id, "Invalid input. Please enter a numeric value.")
+    except Exception as e:
+        print(f"Error during conversion: {e}")
+        bot.send_message(chat_id, "An error occurred. Please try again.")
 
 def main():
     """

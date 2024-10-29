@@ -29,13 +29,19 @@ import helper
 import logging
 from tabulate import tabulate
 from datetime import datetime
+from currency import get_conversion_rate
+from currency import get_supported_currencies
+from telebot import TeleBot, types
+
 from telebot import types
 
 # === Documentation of history.py ===
 
 
+
 def run(message, bot):
     """
+    Fetches, processes, and formats the user's transaction history based on their selected currency.
     Main function to handle displaying history (either individual or group).
 
     run(message, bot): This is the main function used to implement the delete feature.
@@ -60,17 +66,18 @@ def handle_history_type(message, bot):
     history_type = message.text.lower()
 
     if history_type == "individual":
-        display_individual_history(chat_id, bot)
+        display_individual_history(message, chat_id, bot)
     elif history_type == "group":
         msg = bot.send_message(chat_id, "Enter the group name:")
         bot.register_next_step_handler(msg, display_group_history, bot)
     else:
         bot.send_message(chat_id, "Invalid choice. Please choose 'individual' or 'group'.")
 
-def display_individual_history(chat_id, bot):
+def display_individual_history(message, chat_id, bot):
     """
     Displays the individual spending history.
     """
+    selected_currency = message.text.strip().upper()
     try:
         helper.read_json()
         user_history = helper.getUserHistory(chat_id)
@@ -84,14 +91,28 @@ def display_individual_history(chat_id, bot):
 
                 date_time = datetime.strptime(date, '%d-%b-%Y')
                 current_date = datetime.now()
-
                 if date_time <= current_date:
-                    table.append([date, category, "$ " + amount])
+                    original_currency = 'USD'  # Assume the original currency is USD
+                    try:
+                        # Convert the amount if the selected currency is different
+                        if selected_currency != original_currency:
+                            conversion_rate = get_conversion_rate(original_currency, selected_currency)
+                            if conversion_rate:
+                                converted_amount = round(float(amount) * conversion_rate, 2)
+                                table.append([date, category, f"{converted_amount} {selected_currency}"])
+                            else:
+                                table.append([date, category, f"{amount} USD (conversion failed)"])
+                        else:
+                            table.append([date, category, f"{amount} USD"])
+                    except Exception as e:
+                        bot.send_message(chat_id, f"Error converting amount: {e}")
+                        return
             spend_total_str = "<pre>" + tabulate(table, headers='firstrow') + "</pre>"
             bot.send_message(chat_id, spend_total_str, parse_mode="HTML")
     except Exception as e:
         logging.exception(str(e))
         bot.send_message(chat_id, "Oops! " + str(e))
+
 
 def display_group_history(message, bot):
     """
@@ -130,3 +151,8 @@ def display_group_history(message, bot):
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, "Oops! " + str(e))
+
+
+
+
+
