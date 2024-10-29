@@ -244,3 +244,4 @@ def add_user_record(chat_id, record_to_be_added):
 
     user_list[str(chat_id)]["data"].append(record_to_be_added)
     return user_list
+    
