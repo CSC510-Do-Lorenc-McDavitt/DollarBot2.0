@@ -11,6 +11,8 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/tpanati/DollarBot)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/tpanati/DollarBot)
 [![Build Status](https://app.travis-ci.com/usmanwardag/dollar_bot.svg?branch=main)](https://app.travis-ci.com/usmanwardag/dollar_bot)
+[![Flake8](https://img.shields.io/badge/lint-flake8-blue)](https://github.com/KomachiZ/DollarBot/blob/project2/.github/workflows/python-app.yml)
+
 
 # 💰 Dollar Bot 💰
 
