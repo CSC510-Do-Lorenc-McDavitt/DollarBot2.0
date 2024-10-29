@@ -48,53 +48,118 @@ class ChatGPTHandler:
         
         Keep responses concise and specific to the user's data."""
 
+    # def load_user_data(self, chat_id):
+    #     """Load and process user's financial data"""
+    #     logger.info(f"Loading data for user {chat_id}")
+    #     try:
+    #         # Get user data
+    #         history = helper.getUserHistory(chat_id)
+    #         budget = helper.getCategoryBudget(chat_id)
+    #         overall_budget = helper.getOverallBudget(chat_id)
+            
+    #         # Initialize data structure
+    #         financial_data = {
+    #             "total_spent": 0.0,
+    #             "transactions": [],
+    #             "category_totals": {},
+    #             "budget_info": budget if budget else {},
+    #             "overall_budget": overall_budget if overall_budget else 0.0
+    #         }
+
+    #         # Process history if available
+    #         if history:
+    #             for record in history:
+    #                 try:
+    #                     date, category, amount = record.split(',')
+    #                     amount = float(amount)
+                        
+    #                     financial_data["transactions"].append({
+    #                         "date": date,
+    #                         "category": category,
+    #                         "amount": amount
+    #                     })
+                        
+    #                     if category not in financial_data["category_totals"]:
+    #                         financial_data["category_totals"][category] = 0.0
+    #                     financial_data["category_totals"][category] += amount
+    #                     financial_data["total_spent"] += amount
+    #                 except Exception as e:
+    #                     logger.error(f"Error processing record: {record}, Error: {str(e)}")
+    #                     continue
+
+    #         self.user_data[chat_id] = financial_data
+    #         logger.info(f"Data loaded successfully for user {chat_id}")
+    #         logger.debug(f"User data: {financial_data}")
+    #         return True
+    #     except Exception as e:
+    #         logger.error(f"Error loading user data: {str(e)}")
+    #         return False
     def load_user_data(self, chat_id):
         """Load and process user's financial data"""
         logger.info(f"Loading data for user {chat_id}")
         try:
-            # Get user data
+            # Get user data using helper functions
             history = helper.getUserHistory(chat_id)
             budget = helper.getCategoryBudget(chat_id)
             overall_budget = helper.getOverallBudget(chat_id)
             
-            # Initialize data structure
+            logger.debug(f"Retrieved history: {history}")
+            logger.debug(f"Retrieved budget: {budget}")
+            logger.debug(f"Retrieved overall budget: {overall_budget}")
+            
+            # Initialize data structure with default values
             financial_data = {
-                "total_spent": 0,
+                "total_spent": 0.0,
                 "transactions": [],
                 "category_totals": {},
                 "budget_info": budget if budget else {},
-                "overall_budget": overall_budget if overall_budget else 0
+                "overall_budget": overall_budget if overall_budget else "0"
             }
 
             # Process history if available
             if history:
+                logger.info(f"Processing {len(history)} records")
                 for record in history:
                     try:
                         date, category, amount = record.split(',')
-                        amount = float(amount)
+                        amount = round(float(amount), 2)
                         
-                        financial_data["transactions"].append({
-                            "date": date,
-                            "category": category,
+                        # Create transaction record
+                        transaction = {
+                            "date": date.strip(),
+                            "category": category.strip(),
                             "amount": amount
-                        })
+                        }
+                        financial_data["transactions"].append(transaction)
                         
+                        # Update category totals
                         if category not in financial_data["category_totals"]:
-                            financial_data["category_totals"][category] = 0
-                        financial_data["category_totals"][category] += amount
-                        financial_data["total_spent"] += amount
+                            financial_data["category_totals"][category] = 0.0
+                        financial_data["category_totals"][category] = round(
+                            financial_data["category_totals"][category] + amount, 2
+                        )
+                        
+                        # Update total spent
+                        financial_data["total_spent"] = round(
+                            financial_data["total_spent"] + amount, 2
+                        )
+                        
+                        logger.debug(f"Processed transaction: {transaction}")
+                        
                     except Exception as e:
-                        logger.error(f"Error processing record: {record}, Error: {str(e)}")
+                        logger.error(f"Error processing record '{record}': {str(e)}")
                         continue
 
+            # Store processed data
             self.user_data[chat_id] = financial_data
-            logger.info(f"Data loaded successfully for user {chat_id}")
-            logger.debug(f"User data: {financial_data}")
+            logger.info(f"Successfully loaded data for user {chat_id}")
+            logger.debug(f"Final user data: {financial_data}")
+            
             return True
-        except Exception as e:
-            logger.error(f"Error loading user data: {str(e)}")
-            return False
 
+        except Exception as e:
+            logger.error(f"Error in load_user_data: {str(e)}")
+            return False
     def format_financial_status(self, chat_id):
         """Format financial data for GPT prompt with detailed transaction history"""
         data = self.user_data.get(chat_id, {})
