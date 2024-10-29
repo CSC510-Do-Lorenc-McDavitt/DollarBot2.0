@@ -229,32 +229,14 @@ def command_updateCategory(message):
     updateCategory.run(message, bot)
 
 # function to fetch expenditure history of the user
-# @bot.message_handler(commands=["history"])
-# def command_history(message):
-#     """
-#     command_history(message): Takes 1 argument message which contains the message from
-#     the user along with the chat ID of the user chat. It then calls history.py to run to execute
-#     the add functionality. Commands used to run this: commands=['history']
-#     """
-#     history.run(message, bot)
-
 @bot.message_handler(commands=["history"])
 def command_history(message):
     """
-    Starts the process for showing the user's transaction history in a selected currency.
+    command_history(message): Takes 1 argument message which contains the message from
+    the user along with the chat ID of the user chat. It then calls history.py to run to execute
+    the add functionality. Commands used to run this: commands=['history']
     """
-    chat_id = message.chat.id
-    supported_currencies = get_supported_currencies()
-    
-    if supported_currencies:
-        # Create a ReplyKeyboardMarkup to display currency options
-        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
-        for currency in supported_currencies:
-            markup.add(currency)
-        msg = bot.reply_to(message, "Select the currency you want the history to be displayed in:", reply_markup=markup)
-        bot.register_next_step_handler(msg, lambda m: history_run(m, bot))
-    else:
-        bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
+    history.run(message, bot)
 
 # function to fetch expenditure history of the user
 @bot.message_handler(commands=["sendEmail"])
