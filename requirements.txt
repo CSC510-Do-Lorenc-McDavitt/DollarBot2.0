@@ -10,4 +10,4 @@ pytest
 python-telegram-bot-calendar
 mock
 tabulate
-openai 
+openai==0.28.0
