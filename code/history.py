@@ -146,10 +146,6 @@ def display_group_history(message, bot):
 
     except Exception as e:
         logging.exception(str(e))
-        bot.send_message(chat_id, "Oops! " + str(e))
-
-    except Exception as e:
-        logging.exception(str(e))
         bot.reply_to(message, "Oops! " + str(e))
 
 

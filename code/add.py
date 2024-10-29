@@ -45,6 +45,9 @@ def run(message, bot):
     markup.row_width = 2
     markup.add(types.KeyboardButton("Individual"), types.KeyboardButton("Group"))
 
+    # Reset the option for the current user when starting a new flow
+    option[chat_id] = {}  # Reset the option for the current user
+
     msg = bot.send_message(chat_id, "Do you want to add this expense to an individual or a group?", reply_markup=markup)
     bot.register_next_step_handler(msg, handle_group_check, bot)
 
@@ -95,6 +98,9 @@ def handle_group_name(message, bot):
     groups = helper.load_group_data()
 
     if group_name in groups:
+        # Store the group name in the option dictionary for the current user
+        option[chat_id]['group_name'] = group_name  # Track group name in option
+
         # Proceed to ask for date for group expense
         msg = bot.send_message(chat_id, "Select date")
         calendar, step = DetailedTelegramCalendar().build()
@@ -117,10 +123,9 @@ def handle_group_name(message, bot):
                 if result > data:
                     bot.send_message(chat_id, "Cannot select future dates. Please try /add command again with correct dates.")
                 else:
-                    category_selection(message, bot, result, group_name)  # group_name is passed for group flow
+                    category_selection(message, bot, result, group_name)  # Pass group_name for group flow
     else:
         bot.send_message(chat_id, f"Group '{group_name}' does not exist. Please create a new group with /group.")
-
 
 def category_selection(msg, bot, date, group_name=None):
     """
@@ -156,9 +161,12 @@ def post_category_selection(message, bot, date, group_name=None):
             raise Exception(
                 'Sorry, I don\'t recognise this category "{}"!'.format(selected_category)
             )
-        option[chat_id] = selected_category
+        
+        # Store the category in the option dictionary
+        option[chat_id]['category'] = selected_category
+
         msg = bot.send_message(
-            chat_id, "How much did you spend on {}? \n(Numeric values only)".format(str(option[chat_id])),
+            chat_id, "How much did you spend on {}? \n(Numeric values only)".format(str(option[chat_id]['category'])),
         )
         bot.register_next_step_handler(msg, post_amount_input, bot, selected_category, date, group_name)
     except Exception as e:
