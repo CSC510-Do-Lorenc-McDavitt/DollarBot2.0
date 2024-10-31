@@ -8,21 +8,15 @@ Description: Test cases for ChatGPT integration module
 import pytest
 from datetime import datetime, timedelta
 from unittest.mock import Mock, patch, MagicMock, mock_open
-# # 在导入chat模块之前，先mock open操作
-# mock_properties = """
-# api_token=your_mock_api_key
-# openai_key=gpt_token
-# """
 
-# @patch("builtins.open", mock_open(read_data=mock_properties))
 @pytest.fixture(autouse=True)
 def mock_properties():
-    mock_data = """
-    api_token=your_mock_api_key
-    openai_key=gpt_token
-    """
-    with patch("builtins.open", mock_open(read_data=mock_data)):
-        yield
+    mock_data = b"""api_token=your_mock_api_key
+openai_key=gpt_token"""  
+    
+    with patch('code.chat.open', mock_open(read_data=mock_data)) as mock_file:
+        yield mock_file
+
 from code.chat import ChatGPTHandler
 import json
 
