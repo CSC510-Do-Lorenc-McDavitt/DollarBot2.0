@@ -8,7 +8,7 @@ Description: Test cases for ChatGPT integration module
 import pytest
 from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime, timedelta
-from code.chat import ChatGPTHandler, chat_handler
+from code.chat import ChatGPTHandler
 import json
 
 # Mock data for testing
