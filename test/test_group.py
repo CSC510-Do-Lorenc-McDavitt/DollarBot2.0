@@ -413,3 +413,102 @@ def test_display_group_history_conversion_failed(mock_get_conversion_rate, mock_
         parse_mode="HTML"
     )
     
+@patch('helper.save_group_data')
+@patch('helper.load_group_data')
+def test_create_group_invalid_size(mock_load_group_data, mock_save_group_data):
+    """
+    Test creating a group with invalid size (non-numeric input).
+    """
+    reset_groups()
+    mock_load_group_data.return_value = group.groups
+
+    message = MagicMock()
+    message.chat.id = 12345
+    message.text = "abc"  # Invalid non-numeric input
+    bot = MagicMock()
+
+    group.create_group(message, bot, "new_group")
+    
+    # Verify error message is sent
+    bot.send_message.assert_called_with(12345, "Please enter a valid number for group size.")
+    # Verify group was not created
+    assert "new_group" not in group.groups
+    # Verify data was not saved
+    mock_save_group_data.assert_not_called()
+
+
+
+@patch('helper.save_group_data')
+@patch('helper.load_group_data')
+def test_run_invalid_action(mock_load_group_data, mock_save_group_data):
+    """
+    Test selecting an invalid action in the main run function.
+    """
+    reset_groups()
+    mock_load_group_data.return_value = group.groups
+
+    message = MagicMock()
+    message.chat.id = 12345
+    message.text = "Invalid Action"
+    bot = MagicMock()
+
+    # First call handle_group_action
+    group.handle_group_action(message, bot)
+    
+    # Get all calls to send_message
+    calls = bot.send_message.call_args_list
+    
+    # Assert that the error message was sent
+    assert any(
+        call[0] == (12345, "Invalid option. Please try again.")
+        for call in calls
+    ), "Error message for invalid action not found in bot calls"
+    
+    # Assert that run was called again (verify the recursive call)
+    assert any(
+        "Choose an option:" in call[0][1]
+        for call in calls
+    ), "Menu options not reshown after invalid action"
+
+@patch('helper.load_group_data')
+def test_view_empty_groups(mock_load_group_data):
+    """
+    Test viewing groups when no groups exist.
+    """
+    # Mock empty groups
+    mock_load_group_data.return_value = {}
+    
+    # Reset the global groups to empty
+    group.groups = {}
+
+    message = MagicMock()
+    message.chat.id = 12345
+    bot = MagicMock()
+
+    group.view_all_groups(message.chat.id, bot)
+    
+    # Verify correct message for empty groups
+    bot.send_message.assert_called_with(
+        12345, "No groups available. Please create a group using the /group command."
+    )
+
+@patch('helper.save_group_data')
+@patch('helper.load_group_data')
+def test_create_group_with_zero_size(mock_load_group_data, mock_save_group_data):
+    """
+    Test creating a group with zero members.
+    """
+    reset_groups()
+    mock_load_group_data.return_value = group.groups
+
+    message = MagicMock()
+    message.chat.id = 12345
+    message.text = "0"  # Zero size
+    bot = MagicMock()
+
+    group.create_group(message, bot, "zero_group")
+    
+    # Group should be created even with size 0 (current implementation allows this)
+    assert "zero_group" in group.groups
+    assert group.groups["zero_group"]["size"] == 0
+    mock_save_group_data.assert_called_once_with(group.groups)
