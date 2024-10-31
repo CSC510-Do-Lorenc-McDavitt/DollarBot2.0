@@ -86,6 +86,7 @@ def display_total(message, bot):
         # show the bot "typing" (max. 5 secs)
         bot.send_chat_action(chat_id, "typing")
         time.sleep(0.5)
+        queryResult = []
 
         total_text = ""
         if DayWeekMonth == "Day":
