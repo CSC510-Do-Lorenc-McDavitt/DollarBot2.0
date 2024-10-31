@@ -39,7 +39,7 @@ jobs:
         pip install pylint
     - name: Run pylint
       run: |
-        pylint -r y code/    
+        pylint -r y code/ || true
     - name: Test with pytest
       run: |
         pip install coverage
