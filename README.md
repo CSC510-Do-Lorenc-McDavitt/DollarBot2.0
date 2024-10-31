@@ -86,6 +86,7 @@ Since DollarBot is built on top of Telegram, you'll first need:
 1. Download the Telegram Desktop Application <a href="https://desktop.telegram.org/">here.</a>
 ```https://desktop.telegram.org/```
 2. Create a Telegram account or Sign in.
+3. Obtain OpenAI key: <a href="https://platform.openai.com/api-keys">here.</a>
 
 Open up your terminal and let's get started:
 
@@ -266,15 +267,23 @@ Our implementation has been tracked in a project board which can be viewed here 
 [DollarBot Developer board](https://github.com/users/tpanati/projects/2)
 
 Some possible future enhancements are as follows:
+<!-- 
 1.	**AI-Driven Financial Insights:** Integrate advanced generative AI algorithms to provide personalized financial insights and recommendations. Leverage machine learning to analyze spending patterns and offer proactive suggestions for optimizing expenses.
 2.	**Expense Sharing and Splitting:** Enable users to share expenses effortlessly with friends, family, or colleagues. Implement a feature that allows users to split bills and track shared expenses, making group financial management seamless.
 3.	**Cross-Platform Compatibility:** Develop setup scripts specifically for Windows users to ensure a smooth and hassle-free installation process on this platform. Expand DollarBot's accessibility to a broader user base by optimizing its performance on Windows operating systems.
-4.	**Natural Language Processing (NLP) Integration:** Enhance DollarBot's user experience by implementing Natural Language Processing (NLP) capabilities. Enable the bot to respond to casual conversation, making interactions more intuitive and user-friendly. Users can engage with DollarBot in a more conversational manner, improving overall usability.
+4.	**LLM Agent Integration:** Integrate more third-party tools to collaborate with the ChatGPT, constructing it into a life assistant agent that retrieves daily activities and billing information from Google Calendar and credit card systems for automatic statistical analysis.
 5.  **Integration with Financial APIs:** Integrate with popular financial APIs to fetch real-time transaction data from bank accounts and credit cards. This enhancement provides users with up-to-the-minute financial information, ensuring accuracy and completeness in their spending records.
 6.  **Multi-Currency Support:** Extend DollarBot's functionality to support multiple currencies, catering to users with diverse financial portfolios. This enhancement ensures accurate tracking and reporting for users dealing with expenses in different currencies.
 7.  **Smart Notifications and Alerts:** Implement intelligent notification features to alert users about budget limits, unusual spending patterns, or upcoming bills. These proactive notifications will empower users to make informed financial decisions in real-time.
 8.  **Secure Cloud Sync and Backup:** Implement a secure cloud sync and backup feature to ensure users' data is protected and accessible across devices. This enhancement provides users with peace of mind, knowing that their financial data is safely stored and can be easily recovered if needed.
-
+-->
+1.	**LLM Agent Integration:** Integrate more third-party tools to collaborate with the ChatGPT, constructing it into a life assistant agent that retrieves daily activities and billing information from Google Calendar and credit card systems for automatic statistical analysis.
+2.	**Multi-Currency Support:** Currency DB with Investment Insights: Collect currency trends, provide investment advice based on fluctuations, and integrate NLP for user interaction.
+3.	**Expense Splitting - further:** Integrate group functionalities into other functionalities, for example, edit expenses, delete expenses, send emails to each person, etc.
+4.	**Cross-Platform Compatibility:** Develop setup scripts specifically for Windows users to ensure a smooth and hassle-free installation process on this platform. Expand DollarBot's accessibility to a broader user base by optimizing its performance on Windows operating systems.
+5.  **Integration with Financial APIs:** Integrate with popular financial APIs to fetch real-time transaction data from bank accounts and credit cards. This enhancement provides users with up-to-the-minute financial information, ensuring accuracy and completeness in their spending records.
+6.  **Smart Notifications and Alerts:** Implement intelligent notification features to alert users about budget limits, unusual spending patterns, or upcoming bills. These proactive notifications will empower users to make informed financial decisions in real-time.
+7.  **Secure Cloud Sync and Backup:** Implement a secure cloud sync and backup feature to ensure users' data is protected and accessible across devices. This enhancement provides users with peace of mind, knowing that their financial data is safely stored and can be easily recovered if needed.
 
 :heart: Acknowledgements
 ---
