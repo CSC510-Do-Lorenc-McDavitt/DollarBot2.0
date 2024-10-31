@@ -57,7 +57,7 @@ commands = {
     "analytics": "This option gives user a graphical representation of their expenditures \
         \n You will get an option to choose the type of data you want to see.",
     "predict": "This option analyzes your recorded spendings and gives you a budget that will accommodate for them.",
-    "history": "This option is to give you the detailed summary of your expenditure with Date, time ,category and amount. A quick lookup into your spendings",
+    "history": "This option is to give you the detailed summary of your expenditure with Date, time ,category and amount. A quick lookup into your spending. You can view in different currency",
     "delete": "This option is to Clear/Erase specific records or all your records based on your Choice",
     "display": "This option is to display your records for the current month or for the current day as per the user's choice.",
     "edit": "This option helps you to go back and correct/update the missing details \
@@ -74,6 +74,7 @@ commands = {
     "weekly": "This option is to get the weekly analysis report of the expenditure",
     "monthly": "This option is to get the monthly analysis report of the expenditure",
     "sendEmail": "Send an email with an attachment showing your history",
+    "group": "This option is to manage groups. To create, delete and view groups",
     "chat": "Start a conversation with ChatGPT",
 }
 
