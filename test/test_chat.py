@@ -6,8 +6,15 @@ Description: Test cases for ChatGPT integration module
 """
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime, timedelta
+from unittest.mock import Mock, patch, MagicMock, mock_open
+# 在导入chat模块之前，先mock open操作
+mock_properties = """
+api_token=your_mock_api_key
+openai_key=gpt_token
+"""
+
+@patch("builtins.open", mock_open(read_data=mock_properties))
 from code.chat import ChatGPTHandler
 import json
 
