@@ -1,0 +1,13 @@
+{
+    "Aaa": {
+        "size": 4,
+        "total_spent": 100.0,
+        "expenses": [
+            {
+                "date": "08-May-2024",
+                "category": "Food",
+                "amount": 100.0
+            }
+        ]
+    }
+}
