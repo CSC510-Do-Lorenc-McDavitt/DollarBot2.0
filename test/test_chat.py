@@ -9,13 +9,29 @@ import pytest
 from datetime import datetime, timedelta
 from unittest.mock import Mock, patch, MagicMock, mock_open
 
+class MockPropertiesFile:
+    def __init__(self):
+        self.data = b"""api_token=your_mock_api_key
+openai_key=gpt_token"""
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+    
+    def read(self):
+        return self.data
+
 @pytest.fixture(autouse=True)
 def mock_properties():
-    mock_data = b"""api_token=your_mock_api_key
-openai_key=gpt_token"""  
+    def mock_open_impl(*args, **kwargs):
+        if args[0] == "user.properties":
+            return MockPropertiesFile()
+        raise FileNotFoundError(f"Mock: {args[0]} not found")
     
-    with patch('code.chat.open', mock_open(read_data=mock_data)) as mock_file:
-        yield mock_file
+    with patch('code.chat.open', side_effect=mock_open_impl):
+        yield
 
 from code.chat import ChatGPTHandler
 import json
