@@ -6,7 +6,8 @@ Description: Test cases for ChatGPT integration module
 """
 
 import pytest
-from unittest.mock import patch, mock_open
+from datetime import datetime, timedelta
+from unittest.mock import patch, mock_open, Mock
 import builtins
 import sys
 import importlib
@@ -45,7 +46,6 @@ mock_open_patcher.start()
 if 'code.chat' in sys.modules:
     importlib.reload(sys.modules['code.chat'])
 from code.chat import ChatGPTHandler
-
 import json
 
 # Mock data for testing
