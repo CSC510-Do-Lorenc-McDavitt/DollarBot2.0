@@ -261,6 +261,17 @@ This option is to get the monthly analysis report of the expenditure
 <p align="center"><img width="700" src="./docs/workflows/monthly.gif"></p>
 It can be invoked by using `/monthly` command.
 
+## New Features Demo
+## Group
+![group](https://github.com/user-attachments/assets/94fa2527-0eaf-44aa-a35f-b78313f800fb)
+
+## Chat
+![chat](https://github.com/user-attachments/assets/5ed24579-363f-4554-ad04-91b05c5d2e8c)
+
+## Currency
+![currency](https://github.com/user-attachments/assets/1ee67b49-556c-4523-991b-0096e509bf5b)
+
+
 # :construction: Road Map
 
 Our implementation has been tracked in a project board which can be viewed here -
