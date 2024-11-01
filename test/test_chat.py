@@ -4,7 +4,6 @@ Author: Haojie Zhou
 Date: Oct 27 2024
 Description: Test cases for ChatGPT integration module
 """
-
 import pytest
 from datetime import datetime, timedelta
 from unittest.mock import patch, mock_open, Mock
@@ -12,6 +11,7 @@ import builtins
 import sys
 import importlib
 from pathlib import Path
+from io import BytesIO
 
 # Mock properties content
 MOCK_PROPERTIES = """api_token=your_mock_api_key
@@ -19,16 +19,27 @@ openai_key=gpt_token"""
 
 class MockPropertiesFile:
     def __init__(self):
-        self.data = MOCK_PROPERTIES.encode('utf-8')
+        self.buffer = BytesIO(MOCK_PROPERTIES.encode('utf-8'))
     
     def __enter__(self):
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
-        pass
+        self.buffer.close()
     
-    def read(self):
-        return self.data
+    def read(self, size=-1):
+        """
+        Implements file-like read interface.
+        Args:
+            size: Number of bytes to read. -1 means read all (default).
+        Returns:
+            Bytes read from the buffer
+        """
+        return self.buffer.read(size)
+    
+    def close(self):
+        """Implements file-like close interface"""
+        self.buffer.close()
 
 def mock_open_impl(*args, **kwargs):
     if str(args[0]) == "user.properties":
