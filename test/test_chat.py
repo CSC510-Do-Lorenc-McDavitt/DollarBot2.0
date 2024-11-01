@@ -6,13 +6,19 @@ Description: Test cases for ChatGPT integration module
 """
 
 import pytest
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock, mock_open
+from unittest.mock import patch, mock_open
+import builtins
+import sys
+import importlib
+from pathlib import Path
+
+# Mock properties content
+MOCK_PROPERTIES = """api_token=your_mock_api_key
+openai_key=gpt_token"""
 
 class MockPropertiesFile:
     def __init__(self):
-        self.data = b"""api_token=your_mock_api_key
-openai_key=gpt_token"""
+        self.data = MOCK_PROPERTIES.encode('utf-8')
     
     def __enter__(self):
         return self
@@ -23,17 +29,23 @@ openai_key=gpt_token"""
     def read(self):
         return self.data
 
-@pytest.fixture(autouse=True)
-def mock_properties():
-    def mock_open_impl(*args, **kwargs):
-        if args[0] == "user.properties":
-            return MockPropertiesFile()
-        raise FileNotFoundError(f"Mock: {args[0]} not found")
-    
-    with patch('code.chat.open', side_effect=mock_open_impl):
-        yield
+def mock_open_impl(*args, **kwargs):
+    if str(args[0]) == "user.properties":
+        return MockPropertiesFile()
+    return original_open(*args, **kwargs)
 
+# Store the original open function
+original_open = builtins.open
+
+# Apply mock at module level
+mock_open_patcher = patch('builtins.open', side_effect=mock_open_impl)
+mock_open_patcher.start()
+
+# Import ChatGPTHandler after applying the mock
+if 'code.chat' in sys.modules:
+    importlib.reload(sys.modules['code.chat'])
 from code.chat import ChatGPTHandler
+
 import json
 
 # Mock data for testing
