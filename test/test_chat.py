@@ -175,7 +175,6 @@ def test_format_financial_status_complete(chat_handler_instance):
     assert "Overall Budget: $1000" in result
     assert "Budget Usage:" in result
     
-    # 检查详细的支出记录格式
     assert "- Date: 27-Oct-2024, Category: Food, Amount: $25.50" in result
     assert "- Date: 26-Oct-2024, Category: Transport, Amount: $15.00" in result
 
