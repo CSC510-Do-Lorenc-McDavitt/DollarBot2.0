@@ -297,9 +297,9 @@ This project is licensed under the terms of the MIT license. Please check [LICEN
 ## Contributors
 <table>
   <tr>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/114872378?v=4" width="75px;" alt=""/><br /><sub><b>Harshavardhan Bandaru</b></sub></a></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/35067896?v=4" width="75px;" alt=""/><br /><sub><b>Vyshnavi Adusumeli</b></sub></a><br /></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/144171816?s=400&u=e9fb80d2e9acb2fc438881017b49e6d26720a50d&v=4" width="75px;" alt=""/><br /><sub><b>Tejaswini Panati</b></sub></a><br /></td>
+    <td align="center"><img src="https://avatars.githubusercontent.com/u/32158594?s=400&u=3f1cff6877bbb68b411e8854f2d482a36139d766&v=4" width="75px;" alt=""/><br /><sub><b>Haojie Zhou</b></sub></a></td>
+    <td align="center"><img src="https://avatars.githubusercontent.com/u/35067896?v=4" width="75px;" alt=""/><br /><sub><b>Jiewen Liu</b></sub></a><br /></td>
+    <td align="center"><img src="https://avatars.githubusercontent.com/u/118965984?v=4" width="75px;" alt=""/><br /><sub><b>Yumo Shen</b></sub></a><br /></td>
   </tr>
 </table>
 
