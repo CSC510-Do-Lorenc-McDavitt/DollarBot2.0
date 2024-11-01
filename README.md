@@ -263,7 +263,7 @@ It can be invoked by using `/monthly` command.
 
 ## New Features Demo
 ## Group
-![group](https://github.com/user-attachments/assets/edae2a78-2de5-4c0d-9084-136f84997522)
+
 
 
 ## Chat
