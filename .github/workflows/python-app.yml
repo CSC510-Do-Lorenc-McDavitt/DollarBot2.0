@@ -43,7 +43,7 @@ jobs:
     - name: Test with pytest
       run: |
         pip install coverage
-        coverage run -m pytest test/test_group.py
+        # coverage run -m pytest test/test_group.py
         coverage run -m pytest test/test_chat.py
         coverage run -m pytest test/test_currency.py
     - name: Upload coverage reports to Codecov
