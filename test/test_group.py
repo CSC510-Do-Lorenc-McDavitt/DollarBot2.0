@@ -348,7 +348,7 @@ def test_display_group_history_non_existing_group(mock_load_group_data):
     bot.send_message.assert_called_once_with(12345, "Group 'non_existing_group' does not exist.")
 
 @patch('helper.load_group_data')
-@patch('currency.get_conversion_rate')
+@patch('history.get_conversion_rate')
 def test_display_group_history_with_conversion(mock_get_conversion_rate, mock_load_group_data):
     """
     Test displaying group history with currency conversion.
@@ -362,7 +362,7 @@ def test_display_group_history_with_conversion(mock_get_conversion_rate, mock_lo
             ]
         }
     }
-
+    mock_get_conversion_rate.return_value = 0.9218
     # Simulate bot and message objects
     message = MagicMock()
     message.chat.id = 12345
