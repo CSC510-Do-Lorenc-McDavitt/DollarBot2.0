@@ -274,8 +274,10 @@ It can be invoked by using `/history` command.
 
 <p align="center"><img width="700" src="./docs/workflows/currencyother.gif"></p>  
 Here are some other features about currency:
-1. /currency: show all supported currency
+1. /currency: show all supported currency  
+
 2. /convert: show conversion between two currency
+
 3. /currencycalculator: calculate amount under different currency
 
 
