@@ -77,8 +77,8 @@ commands = {
     "group": "This option is to manage groups. To create, delete and view groups",
     "chat": "Start a conversation with ChatGPT",
     "currency": "Lists all supported currencies, allowing users to view available options for conversions.",
-    "/convert": "Converts a specified currency to USD and provides the current exchange rate.",
-    "/currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies."
+    "convert": "Converts a specified currency to USD and provides the current exchange rate.",
+    "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies."
 }
 
 dateFormat = "%d-%b-%Y"
