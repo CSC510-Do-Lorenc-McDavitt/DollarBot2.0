@@ -273,12 +273,13 @@ It can be invoked by using `/chat` command.
 It can be invoked by using `/history` command.  
 
 <p align="center"><img width="700" src="./docs/workflows/currencyother.gif"></p>  
-Here are some other features about currency:
-1. /currency: show all supported currency  
+Here are some other features about currency:  
 
-2. /convert: show conversion between two currency
+1. /currency: Lists all supported currencies, allowing users to view available options for conversions.
 
-3. /currencycalculator: calculate amount under different currency
+2. /convert: Converts a specified currency to USD and provides the current exchange rate.
+
+3. /currencycalculator: Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies.
 
 
 
