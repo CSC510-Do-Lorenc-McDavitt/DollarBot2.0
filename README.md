@@ -83,7 +83,7 @@ Since DollarBot is built on top of Telegram, you'll first need:
 1. Download the Telegram Desktop Application <a href="https://desktop.telegram.org/">here.</a>
 ```https://desktop.telegram.org/```
 2. Create a Telegram account or Sign in.
-3. Obtain OpenAI key: <a href="https://platform.openai.com/api-keys">here.</a>
+3. Obtain OpenAI key: <a href="https://platform.openai.com/api-keys">here.</a> You need to generate a GPT API key through the OpenAI website to enable the chat function.
 
 Open up your terminal and let's get started:
 
@@ -91,7 +91,7 @@ Open up your terminal and let's get started:
 
 1. Clone this repository to your local system. 
 ```
-   git clone https://github.com/aditikilledar/dollar_bot_SE23/
+   git clone https://github.com/KomachiZ/DollarBot/tree/project2
 ```
 2. Start a terminal session in the directory where the project has been cloned. Run the following commands and follow the instructions on-screen to complete the installation.
 ```
@@ -318,4 +318,4 @@ This project is licensed under the terms of the MIT license. Please check [LICEN
 
 # :calling: Support
 
-For any support, email us at `vadusum@ncsu.edu`
+For any support, email us at `jshen23@ncsu.edu`
