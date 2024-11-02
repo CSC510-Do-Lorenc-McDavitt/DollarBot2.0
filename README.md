@@ -263,14 +263,18 @@ It can be invoked by using `/monthly` command.
 
 ## New Features Demo
 ## Group
-
+<p align="center"><img width="700" src="./docs/workflows/group.gif"></p>
+It can be invoked by using `/group` command.
 
 
 ## Chat
-![chat](https://github.com/user-attachments/assets/5ed24579-363f-4554-ad04-91b05c5d2e8c)
+<p align="center"><img width="700" src="./docs/workflows/chat.gif"></p>
+It can be invoked by using `/chat` command.
 
 ## Currency
-![currency](https://github.com/user-attachments/assets/1ee67b49-556c-4523-991b-0096e509bf5b)
+<p align="center"><img width="700" src="./docs/workflows/currency.gif"></p>
+It can be invoked by using `/history` command.
+
 
 
 # :construction: Road Map
