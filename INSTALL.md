@@ -6,9 +6,10 @@
    Download and install from [here](https://desktop.telegram.org/).  
    Create a Telegram account or log in.
 
-2. **OpenAI API Key**  
+2. **OpenAI API Key**
+   You need to generate a GPT API key through the OpenAI website to enable the chat function.
    Obtain an OpenAI API key from [OpenAI](https://platform.openai.com/signup).
-
+   
 ---
 
 ## Installation
@@ -17,7 +18,7 @@
 1. **Clone the Repository**  
    Open a terminal and run:
    ```bash
-   git clone https://github.com/aditikilledar/dollar_bot_SE23/
+   git clone https://github.com/KomachiZ/DollarBot/tree/project2
    ```
 2. **Run Setup Script**  
    In the project directory, run:
