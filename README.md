@@ -3,13 +3,13 @@
 ![GitHub](https://img.shields.io/github/languages/top/tpanati/DollarBot?color=red&label=Python&logo=Python&logoColor=yellow)
 ![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
 [![DOI](https://zenodo.org/badge/715323572.svg)](https://zenodo.org/doi/10.5281/zenodo.10146708)
-![GitHub contributors](https://img.shields.io/github/contributors/tpanati/DollarBot)
+![GitHub contributors](https://img.shields.io/github/contributors/CSC510-Do-Lorenc-McDavitt/DollarBot)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![codecov](https://codecov.io/gh/tpanati/DollarBot/graph/badge.svg?token=23RW1XPB3P)](https://codecov.io/gh/tpanati/DollarBot)
-![Lines of code](https://tokei.rs/b1/github/tpanati/DollarBot)
-![Version](https://img.shields.io/github/v/release/tpanati/DollarBot?color=ff69b4&label=Version)
-![GitHub issues](https://img.shields.io/github/issues-raw/tpanati/DollarBot)
-![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/tpanati/DollarBot)
+[![codecov](https://codecov.io/gh/CSC510-Do-Lorenc-McDavitt/DollarBot/graph/badge.svg?token=23RW1XPB3P)](https://codecov.io/gh/CSC510-Do-Lorenc-McDavitt/DollarBot)
+![Lines of code](https://tokei.rs/b1/github/CSC510-Do-Lorenc-McDavitt/DollarBot)
+![Version](https://img.shields.io/github/v/release/CSC510-Do-Lorenc-McDavitt/DollarBot?color=ff69b4&label=Version)
+![GitHub issues](https://img.shields.io/github/issues-raw/CSC510-Do-Lorenc-McDavitt/DollarBot)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/CSC510-Do-Lorenc-McDavitt/DollarBot)
 [![Build Status](https://app.travis-ci.com/usmanwardag/dollar_bot.svg?branch=main)](https://app.travis-ci.com/usmanwardag/dollar_bot)
 
 # 💰 Dollar Bot 💰
@@ -33,7 +33,7 @@ And the best part? DollarBot is your financial sidekick, available exclusively o
 
 ## Scorecard
 
-[Score card - Group 13](https://github.com/tpanati/DollarBot/blob/main/proj3/DollarBot_proj3_scorecard.csv)
+[Score card - Group 13](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/main/proj3/DollarBot_proj3_scorecard.csv)
 
 ## Demo Video
 
@@ -73,7 +73,7 @@ With simple commands, this bot allows you to:
 - **Recurring Expenses:** Added the functionality for users to track recurring expenses. This feature facilitates the management of regularly occurring financial commitments.
 - **Bug Fixes and Improved Flow:** Addressed numerous bugs and issues to enhance the overall stability and user experience of the application. The latest updates include fixes to issues related to the previous flow of the application, ensuring a smoother and more reliable user interaction. Our commitment to quality assurance and user satisfaction is reflected in these improvements.
 
-Are you a developer? <a href="https://github.com/tpanati/DollarBot/blob/main/README.md">Click here: For Developers and Future Contributors</a>
+Are you a developer? <a href="https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/main/README.md">Click here: For Developers and Future Contributors</a>
 
 # :rocket: Installation and Setup
 
@@ -280,10 +280,15 @@ We would like to thank Dr. Timothy Menzies for helping us understand the process
 
 :page_facing_up: License
 ---
-This project is licensed under the terms of the MIT license. Please check [LICENSE](https://github.com/tpanati/DollarBot/blob/main/LICENSE) for more details.
+This project is licensed under the terms of the MIT license. Please check [LICENSE](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/main/LICENSE) for more details.
 
 ## Contributors
 <table>
+  <tr>
+    <td align="center"><a href="https://github.com/Nlorenc2760"><img src="https://avatars.githubusercontent.com/u/99928198?s=400&u=cc7ab1019415d06c72c81840ed406675c4b0af2a&v=4" width="100px;" alt=""/><br /><sub><b>Nathan Lorenc</b></sub></a></td>
+    <td align="center"><a href="https://github.com/jfmcdavitt"><img src="https://avatars.githubusercontent.com/u/57042681?v=4" width="100px;" alt=""/><br /><sub><b>Jake McDavitt</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Kethly"><img src="https://avatars.githubusercontent.com/u/57457270?v=4" width="100px;" alt=""/><br /><sub><b>Thien Do</b></sub></a></td>
+</tr>
   <tr>
     <td align="center"><img src="https://avatars.githubusercontent.com/u/114872378?v=4" width="75px;" alt=""/><br /><sub><b>Harshavardhan Bandaru</b></sub></a></td>
     <td align="center"><img src="https://avatars.githubusercontent.com/u/35067896?v=4" width="75px;" alt=""/><br /><sub><b>Vyshnavi Adusumeli</b></sub></a><br /></td>
